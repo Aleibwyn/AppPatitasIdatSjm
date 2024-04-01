@@ -1,7 +1,7 @@
 package pe.edu.idat.apppatitasidatsjm.retrofit.response
 
 data class LoginResponse(
-    var rpta: String,
+    var rpta: Boolean,
     var idpersona: String,
     var nombres: String,
     var apellidos: String,
@@ -9,6 +9,6 @@ data class LoginResponse(
     var celular: String,
     var usuario: String,
     var password: String,
-    var esvoluntario: String,
+    var esvoluntario: Boolean,
     var mensaje: String
 )

@@ -10,11 +10,11 @@ import pe.edu.idat.apppatitasidatsjm.retrofit.response.RegistroResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.awaitResponse
 
 class AuthRepository {
     var loginResponse = MutableLiveData<LoginResponse>()
     var registroResponse = MutableLiveData<RegistroResponse>()
+
 
     fun autenticarUsuario(loginRequest: LoginRequest): MutableLiveData<LoginResponse> {
         val call: Call<LoginResponse> = PatitasCliente.retrofitService.login(loginRequest)
@@ -39,7 +39,7 @@ class AuthRepository {
             }
 
             override fun onFailure(call: Call<RegistroResponse>, t: Throwable) {
-                Log.e("ErrorLogin", t.message.toString())
+                Log.e("ErrorRegistro", t.message.toString())
             }
 
         })
