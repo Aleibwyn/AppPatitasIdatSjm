@@ -1,4 +1,4 @@
-package pe.edu.idat.apppatitasidatsjm.view
+package pe.edu.idat.apppatitasidatsjm
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
