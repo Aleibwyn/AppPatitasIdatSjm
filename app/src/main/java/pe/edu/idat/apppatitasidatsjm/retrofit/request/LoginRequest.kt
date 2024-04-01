@@ -1,4 +1,3 @@
 package pe.edu.idat.apppatitasidatsjm.retrofit.request
 
-class LoginRequest {
-}
+data class LoginRequest(var usuario: String, var password: String)
