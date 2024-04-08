@@ -4,7 +4,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 
 class SharedPreferencesManager() {
-    private val APP_SETTINGS_FILE = "APP_SETTINGS"
+    private val APP_SETTINGS_FILE = "APP_SETTING"
     private fun getSharedPreferences(): SharedPreferences {
         return MiApp.applicationContext.getSharedPreferences(APP_SETTINGS_FILE, MODE_PRIVATE)
     }

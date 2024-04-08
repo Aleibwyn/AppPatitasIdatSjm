@@ -7,7 +7,7 @@ import pe.edu.idat.apppatitasidatsjm.retrofit.response.MascotaResponse
 
 class MascotaViewModel : ViewModel() {
 
-    var repository = MascotaRepository()
+    private var repository = MascotaRepository()
 
     fun listarMascotas():LiveData<List<MascotaResponse>> {
         return repository.listarMascotas()

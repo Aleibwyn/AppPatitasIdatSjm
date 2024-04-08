@@ -9,6 +9,6 @@ data class LoginResponse(
     var celular: String,
     var usuario: String,
     var password: String,
-    var esvoluntario: Boolean,
+    var esvoluntario: String,
     var mensaje: String
 )

@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import pe.edu.idat.apppatitasidatsjm.R
 import pe.edu.idat.apppatitasidatsjm.databinding.ActivityHomeBinding
 import pe.edu.idat.apppatitasidatsjm.viewModel.PersonaViewModel
@@ -33,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        personaViewModel = ViewModelProvider(this).get(PersonaViewModel::class.java)
         setSupportActionBar(binding.appBarHome.toolbar)
 
         binding.appBarHome.fab.setOnClickListener { view ->
@@ -52,7 +52,6 @@ class HomeActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        personaViewModel = ViewModelProvider(this).get(PersonaViewModel::class.java)
         mostrarInformacionUsuario()
     }
 
@@ -67,19 +66,21 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun mostrarInformacionUsuario() {
-        val tvnomusuariohome: TextView = binding.navView.getHeaderView(0).findViewById(R.id.tvnomusuario)
-        val tvemailusuariohome: TextView = binding.navView.get(0).findViewById(R.id.tvnomusuario)
-        personaViewModel.obtener().observe(this, Observer {
-            persona -> persona.let {
+        val tvnomusuariohome: TextView =
+            binding.navView.getHeaderView(0).findViewById(R.id.tvnomusuario)
+        val tvemailusuariohome: TextView =
+            binding.navView.getHeaderView(0).findViewById(R.id.tvemailusuario)
+        personaViewModel.obtener().observe(this, Observer { persona ->
+            persona?.let {
                 tvnomusuariohome.text = persona.usuario
                 tvemailusuariohome.text = persona.email
-        }
+            }
         })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val idItem = item.itemId
-        if(idItem == R.id.action_salir) {
+        if (idItem == R.id.action_salir) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }

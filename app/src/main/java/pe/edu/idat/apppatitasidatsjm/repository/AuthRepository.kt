@@ -15,7 +15,6 @@ class AuthRepository {
     var loginResponse = MutableLiveData<LoginResponse>()
     var registroResponse = MutableLiveData<RegistroResponse>()
 
-
     fun autenticarUsuario(loginRequest: LoginRequest): MutableLiveData<LoginResponse> {
         val call: Call<LoginResponse> = PatitasCliente.retrofitService.login(loginRequest)
         call.enqueue(object : Callback<LoginResponse> {

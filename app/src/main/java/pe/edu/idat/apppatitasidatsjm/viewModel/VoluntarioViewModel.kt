@@ -7,15 +7,10 @@ import pe.edu.idat.apppatitasidatsjm.retrofit.request.VoluntarioRequest
 import pe.edu.idat.apppatitasidatsjm.retrofit.response.RegistroResponse
 
 class VoluntarioViewModel: ViewModel() {
-     var response: LiveData<RegistroResponse>
-
     private val repository = VoluntarioRepository()
-
-    init {
-        response = repository.registroResponse
-    }
+    var response: LiveData<RegistroResponse> = repository.registroResponse
 
     fun registroVoluntario(idPersona: Int) {
-        response = repository.registrarVoluntario(VoluntarioRequest(idPersona))
+        response = repository.registrarVoluntario(idPersona)
     }
 }

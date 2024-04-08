@@ -34,7 +34,7 @@ class PersonaViewModel(application: Application) : AndroidViewModel(application)
         repository.eliminar()
     }
 
-    fun obtener():LiveData<PersonaEntity> {
+    fun obtener(): LiveData<PersonaEntity> {
         return repository.obtener()
     }
 }

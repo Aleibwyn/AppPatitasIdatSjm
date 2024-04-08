@@ -17,31 +17,34 @@ import pe.edu.idat.apppatitasidatsjm.viewModel.VoluntarioViewModel
 
 class VoluntarioFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentVoluntarioBinding? = null
-    private val binding = _binding!!
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: VoluntarioViewModel
-    private  lateinit var personaViewModel: PersonaViewModel
+    private lateinit var personaViewModel: PersonaViewModel
 
     private lateinit var personaEntity: PersonaEntity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentVoluntarioBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(VoluntarioViewModel::class.java)
         personaViewModel = ViewModelProvider(this).get(PersonaViewModel::class.java)
 
-        binding.btnregistrarvoluntario.setOnClickListener(this)
 
-        personaViewModel.obtener().observe(viewLifecycleOwner, Observer {
-            persona -> persona?.let {
-            if (persona.esvoluntario == "1") {
-                formVoluntario()
-            } else {
-                personaEntity = persona
+        personaViewModel.obtener().observe(viewLifecycleOwner, Observer { persona ->
+            persona?.let {
+                if (persona.esvoluntario.toString() == "1") {
+                    formVoluntario()
+                } else {
+                    personaEntity = persona
+                }
             }
-        }
+        })
+
+        binding.btnregistrarvoluntario.setOnClickListener(this)
+        viewModel.response.observe(viewLifecycleOwner, Observer {
+            respuestaRegistroVoluntario(it)
         })
 
         return binding.root
@@ -59,13 +62,10 @@ class VoluntarioFragment : Fragment(), View.OnClickListener {
                 TipoMensaje.ERROR
             )
         }
-        viewModel.response.observe(viewLifecycleOwner, Observer {
-            respuestaRegistroVoluntario(it)
-        })
     }
 
-    private fun respuestaRegistroVoluntario(it: RegistroResponse?) {
-        if (it!!.rpta) {
+    private fun respuestaRegistroVoluntario(it: RegistroResponse) {
+        if (it.rpta) {
             val nuevaPersonaEntity = PersonaEntity(
                 personaEntity.id,
                 personaEntity.nombres,
@@ -80,6 +80,7 @@ class VoluntarioFragment : Fragment(), View.OnClickListener {
             formVoluntario()
         }
         AppMensaje.enviarMensaje(binding.root, it.mensaje, TipoMensaje.SUCCESSFULL)
+        binding.btnregistrarvoluntario.isEnabled = true
     }
 
     private fun formVoluntario() {

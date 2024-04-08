@@ -37,11 +37,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         authViewModel = ViewModelProvider(this)
             .get(AuthViewModel::class.java)
+
+        personaViewModel = ViewModelProvider(this).get(PersonaViewModel::class.java)
+
         authViewModel.loginResponse.observe(this) { response ->
             obtenerDatosLogin(response)
         }
+
         if (recordarDatosLogin()) {
-            SharedPreferencesManager().deletePreferences("PREF_RECORDAR")
             binding.cbRecordar.isChecked = true
             binding.etUsername.isEnabled = false
             binding.etPassword.isEnabled = false
@@ -54,7 +57,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             })
         } else {
-            personaViewModel=  ViewModelProvider(this).get(PersonaViewModel::class.java)
+            personaViewModel.eliminar()
         }
 
         binding.btnLogIn.setOnClickListener(this)
@@ -64,7 +67,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun obtenerDatosLogin(response: LoginResponse) {
         if (response.rpta) {
-            val personaEntity = PersonaEntity(response.idpersona.toInt(), response.nombres, response.apellidos, response.email, response.celular, response.usuario, response.password, response.esvoluntario.toString())
+            val personaEntity = PersonaEntity(
+                response.idpersona.toInt(),
+                response.nombres,
+                response.apellidos,
+                response.email,
+                response.celular,
+                response.usuario,
+                response.password,
+                response.esvoluntario
+            )
             if (recordarDatosLogin()) {
                 personaViewModel.actualizar(personaEntity)
             } else {
@@ -95,6 +107,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val checkeo = vista.isChecked
             if (!checkeo) {
                 if (recordarDatosLogin()) {
+                    SharedPreferencesManager().deletePreferences("PREF_RECORDAR")
                     personaViewModel.eliminar()
                     binding.etUsername.isEnabled = true
                     binding.etPassword.isEnabled = true

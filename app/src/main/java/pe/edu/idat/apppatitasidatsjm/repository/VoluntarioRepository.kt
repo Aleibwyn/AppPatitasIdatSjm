@@ -12,8 +12,8 @@ import retrofit2.Response
 
 class VoluntarioRepository {
     var registroResponse = MutableLiveData<RegistroResponse>()
-    fun registrarVoluntario(voluntarioRequest: VoluntarioRequest): MutableLiveData<RegistroResponse> {
-        val call: Call<RegistroResponse> = PatitasCliente.retrofitService.voluntario(voluntarioRequest)
+    fun registrarVoluntario(idPersona: Int): MutableLiveData<RegistroResponse> {
+        val call: Call<RegistroResponse> = PatitasCliente.retrofitService.voluntario(VoluntarioRequest(idPersona))
         call.enqueue(object : Callback<RegistroResponse> {
             override fun onResponse(call: Call<RegistroResponse>, response: Response<RegistroResponse>) {
                 registroResponse.value = response.body()
