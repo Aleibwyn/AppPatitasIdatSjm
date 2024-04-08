@@ -16,7 +16,6 @@ class MascotaFragment : Fragment() {
     private var _binding: FragmentMascotaBinding? = null
     private val binding = _binding!!
     private lateinit var viewModel: MascotaViewModel
-    private lateinit var adapter: MascotaAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,17 +23,17 @@ class MascotaFragment : Fragment() {
         _binding = FragmentMascotaBinding.inflate(inflater, container, false)
         val view =  binding.root
 
-        val mascotasView = binding.mascotasView
-
-        mascotasView.layoutManager = LinearLayoutManager(activity)
+        binding.mascotasView.layoutManager = LinearLayoutManager(requireActivity())
 
 
         viewModel =  ViewModelProvider(this).get(MascotaViewModel::class.java)
+
+        listarMascotas()
         return view
     }
 
-    private fun listarMascotar() {
-        viewModel.mascotaResponse.observe(viewLifecycleOwner, Observer {
+    private fun listarMascotas() {
+        viewModel.listarMascotas().observe(viewLifecycleOwner, Observer {
             binding.mascotasView.adapter = MascotaAdapter(it)
         })
     }

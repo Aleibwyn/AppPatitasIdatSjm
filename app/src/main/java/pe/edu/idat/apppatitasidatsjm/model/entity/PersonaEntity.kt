@@ -1,4 +1,4 @@
-package pe.edu.idat.apppatitasidatsjm.model.db.entity
+package pe.edu.idat.apppatitasidatsjm.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -22,7 +22,7 @@ class MascotaAdapter(val mascotas: List<MascotaResponse>) : RecyclerView.Adapter
                 tvUbicacionMascota.text = lugar
                 tvContactoMascota.text = contacto
 
-                Glide.with(holder.binding.root.context)
+                Glide.with(holder.itemView.context)
                     .load(urlimagem).centerCrop().into(ivMascota)
             }
         }

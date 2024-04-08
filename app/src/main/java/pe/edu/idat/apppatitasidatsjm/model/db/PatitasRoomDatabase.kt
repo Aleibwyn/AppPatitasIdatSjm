@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import pe.edu.idat.apppatitasidatsjm.model.db.dao.PersonaDao
-import pe.edu.idat.apppatitasidatsjm.model.db.entity.PersonaEntity
+import pe.edu.idat.apppatitasidatsjm.model.dao.PersonaDao
+import pe.edu.idat.apppatitasidatsjm.model.entity.PersonaEntity
 
 @Database(entities = [PersonaEntity::class], version = 1)
 abstract class PatitasRoomDatabase : RoomDatabase() {
@@ -13,9 +13,9 @@ abstract class PatitasRoomDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instancia: PatitasRoomDatabase? = null
+        private var INSTANCIA: PatitasRoomDatabase? = null
         fun getDatabase(context: Context): PatitasRoomDatabase {
-            val tempInstancia = instancia
+            val tempInstancia = INSTANCIA
             if (tempInstancia != null) return tempInstancia
             synchronized(this) {
                 val instancia = Room.databaseBuilder(
@@ -23,7 +23,7 @@ abstract class PatitasRoomDatabase : RoomDatabase() {
                     PatitasRoomDatabase::class.java,
                     "patitasdb"
                 ).build()
-                this.instancia = instancia
+                INSTANCIA = instancia
                 return instancia
             }
         }

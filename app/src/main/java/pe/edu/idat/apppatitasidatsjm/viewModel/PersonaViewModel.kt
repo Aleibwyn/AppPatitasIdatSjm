@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pe.edu.idat.apppatitasidatsjm.model.db.PatitasRoomDatabase
-import pe.edu.idat.apppatitasidatsjm.model.db.entity.PersonaEntity
+import pe.edu.idat.apppatitasidatsjm.model.entity.PersonaEntity
 import pe.edu.idat.apppatitasidatsjm.repository.PersonaRepository
 
 class PersonaViewModel(application: Application) : AndroidViewModel(application) {

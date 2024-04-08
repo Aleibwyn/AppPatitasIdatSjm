@@ -29,4 +29,8 @@ class SharedPreferencesManager() {
     fun getSomeStringValue(nombre: String): String {
         return getSharedPreferences().getString(nombre, "").toString()
     }
+
+    fun deletePreferences(nombre: String) {
+        getSharedPreferences().edit().remove(nombre).apply()
+    }
 }

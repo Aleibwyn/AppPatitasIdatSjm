@@ -1,12 +1,13 @@
-package pe.edu.idat.apppatitasidatsjm.model.db.dao
+package pe.edu.idat.apppatitasidatsjm.model.dao
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import pe.edu.idat.apppatitasidatsjm.model.db.entity.PersonaEntity
-
+import pe.edu.idat.apppatitasidatsjm.model.entity.PersonaEntity
+@Dao
 interface PersonaDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertar(vararg persona: PersonaEntity)

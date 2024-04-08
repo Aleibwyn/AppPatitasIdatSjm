@@ -1,8 +1,8 @@
 package pe.edu.idat.apppatitasidatsjm.repository
 
 import androidx.lifecycle.LiveData
-import pe.edu.idat.apppatitasidatsjm.model.db.dao.PersonaDao
-import pe.edu.idat.apppatitasidatsjm.model.db.entity.PersonaEntity
+import pe.edu.idat.apppatitasidatsjm.model.dao.PersonaDao
+import pe.edu.idat.apppatitasidatsjm.model.entity.PersonaEntity
 
 class PersonaRepository(
     private val personaDao: PersonaDao

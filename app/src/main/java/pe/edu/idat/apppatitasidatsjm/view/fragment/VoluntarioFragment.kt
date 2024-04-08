@@ -1,17 +1,18 @@
 package pe.edu.idat.apppatitasidatsjm.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
-import pe.edu.idat.apppatitasidatsjm.R
 import pe.edu.idat.apppatitasidatsjm.databinding.FragmentVoluntarioBinding
+import pe.edu.idat.apppatitasidatsjm.model.entity.PersonaEntity
+import pe.edu.idat.apppatitasidatsjm.retrofit.response.RegistroResponse
 import pe.edu.idat.apppatitasidatsjm.util.AppMensaje
 import pe.edu.idat.apppatitasidatsjm.util.TipoMensaje
+import pe.edu.idat.apppatitasidatsjm.viewModel.PersonaViewModel
 import pe.edu.idat.apppatitasidatsjm.viewModel.VoluntarioViewModel
 
 class VoluntarioFragment : Fragment(), View.OnClickListener {
@@ -19,6 +20,9 @@ class VoluntarioFragment : Fragment(), View.OnClickListener {
     private val binding = _binding!!
 
     private lateinit var viewModel: VoluntarioViewModel
+    private  lateinit var personaViewModel: PersonaViewModel
+
+    private lateinit var personaEntity: PersonaEntity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,9 +30,19 @@ class VoluntarioFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         _binding = FragmentVoluntarioBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(VoluntarioViewModel::class.java)
+        personaViewModel = ViewModelProvider(this).get(PersonaViewModel::class.java)
 
         binding.btnregistrarvoluntario.setOnClickListener(this)
 
+        personaViewModel.obtener().observe(viewLifecycleOwner, Observer {
+            persona -> persona?.let {
+            if (persona.esvoluntario == "1") {
+                formVoluntario()
+            } else {
+                personaEntity = persona
+            }
+        }
+        })
 
         return binding.root
     }
@@ -37,7 +51,7 @@ class VoluntarioFragment : Fragment(), View.OnClickListener {
         if (binding.cbaceptarterminos.isChecked) {
             binding.btnregistrarvoluntario.isEnabled = false
 
-            //viewModel.registroVoluntario()
+            viewModel.registroVoluntario(personaEntity.id)
         } else {
             AppMensaje.enviarMensaje(
                 binding.root,
@@ -45,5 +59,34 @@ class VoluntarioFragment : Fragment(), View.OnClickListener {
                 TipoMensaje.ERROR
             )
         }
+        viewModel.response.observe(viewLifecycleOwner, Observer {
+            respuestaRegistroVoluntario(it)
+        })
+    }
+
+    private fun respuestaRegistroVoluntario(it: RegistroResponse?) {
+        if (it!!.rpta) {
+            val nuevaPersonaEntity = PersonaEntity(
+                personaEntity.id,
+                personaEntity.nombres,
+                personaEntity.apellidos,
+                personaEntity.email,
+                personaEntity.celular,
+                personaEntity.usuario,
+                personaEntity.password,
+                "1"
+            )
+            personaViewModel.actualizar(nuevaPersonaEntity)
+            formVoluntario()
+        }
+        AppMensaje.enviarMensaje(binding.root, it.mensaje, TipoMensaje.SUCCESSFULL)
+    }
+
+    private fun formVoluntario() {
+        binding.cbaceptarterminos.visibility = View.GONE
+        binding.btnregistrarvoluntario.visibility = View.GONE
+        binding.textView4.visibility = View.GONE
+        binding.textView3.text = "Gracias por su compromiso como voluntario"
+
     }
 }
