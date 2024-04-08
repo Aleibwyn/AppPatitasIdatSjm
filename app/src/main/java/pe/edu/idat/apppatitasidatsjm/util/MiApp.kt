@@ -1,14 +1,16 @@
 package pe.edu.idat.apppatitasidatsjm.util
 
 import android.app.Application
+import android.content.Context
 
 class MiApp: Application() {
+    init {
+        instance = this
+    }
     companion object{
         lateinit var instance: MiApp
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
+            private set
+        val applicationContext:  Context
+            get() = instance.applicationContext
     }
 }
