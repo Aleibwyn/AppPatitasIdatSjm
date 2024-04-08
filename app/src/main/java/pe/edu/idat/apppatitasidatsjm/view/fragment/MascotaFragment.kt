@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import pe.edu.idat.apppatitasidatsjm.MascotaAdapter
 import pe.edu.idat.apppatitasidatsjm.databinding.FragmentMascotaBinding
 import pe.edu.idat.apppatitasidatsjm.viewModel.MascotaViewModel
 
@@ -14,6 +16,7 @@ class MascotaFragment : Fragment() {
     private var _binding: FragmentMascotaBinding? = null
     private val binding = _binding!!
     private lateinit var viewModel: MascotaViewModel
+    private lateinit var adapter: MascotaAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,14 +24,19 @@ class MascotaFragment : Fragment() {
         _binding = FragmentMascotaBinding.inflate(inflater, container, false)
         val view =  binding.root
 
-        //val mascotasView = binding.mascotasView
+        val mascotasView = binding.mascotasView
 
-        //mascotasView.layoutManager = LinearLayoutManager(activity)
-
+        mascotasView.layoutManager = LinearLayoutManager(activity)
 
 
         viewModel =  ViewModelProvider(this).get(MascotaViewModel::class.java)
         return view
+    }
+
+    private fun listarMascotar() {
+        viewModel.mascotaResponse.observe(viewLifecycleOwner, Observer {
+            binding.mascotasView.adapter = MascotaAdapter(it)
+        })
     }
 
 }
