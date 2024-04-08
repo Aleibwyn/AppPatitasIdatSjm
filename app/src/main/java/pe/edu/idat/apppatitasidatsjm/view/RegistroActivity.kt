@@ -1,4 +1,4 @@
-package pe.edu.idat.apppatitasidatsjm
+package pe.edu.idat.apppatitasidatsjm.view
 
 import android.content.Intent
 import android.os.Bundle

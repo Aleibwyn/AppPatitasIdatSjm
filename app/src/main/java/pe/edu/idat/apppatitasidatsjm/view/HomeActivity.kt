@@ -1,4 +1,4 @@
-package pe.edu.idat.apppatitasidatsjm
+package pe.edu.idat.apppatitasidatsjm.view
 
 import android.os.Bundle
 import android.view.Menu
